@@ -1,11 +1,17 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 
+import java.util.Date;
+
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,11 +25,17 @@ public class UserSignUp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
 	private String userName;
-	private String address;
+	@Embedded
+	private Address address;
 	private Integer phone;
 	private String email;
 	private String password;
-	public UserSignUp(Integer userId, String userName, String address, Integer phone, String email, String password) {
+	@Temporal(TemporalType.TIMESTAMP)
+	@LastModifiedDate
+	private Date createdAt;
+	
+	public UserSignUp(Integer userId, String userName, Address address, Integer phone, String email, String password,
+			Date createdAt) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -31,6 +43,13 @@ public class UserSignUp {
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
+		this.createdAt = createdAt;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	public UserSignUp() {
 		super();
@@ -48,10 +67,10 @@ public class UserSignUp {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 	public Integer getPhone() {
