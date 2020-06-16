@@ -97,7 +97,7 @@ public class CategoryController {
 	}
 
 	@PostMapping(value="/uploadimageCategory", consumes = {"multipart/form-data"})
-	public String uploadMultipartFilewithImage(@RequestParam("uploadfile") MultipartFile file,
+	public String uploadCategoryDatawithImage(@RequestParam("uploadfile") MultipartFile file,
 			@RequestParam String categoryName,@RequestParam String categoryDescription) {
 		try {
 			Category ca=new Category( categoryName,categoryDescription,file.getBytes());
