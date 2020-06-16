@@ -1,6 +1,7 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.Category;
+import com.tvm.OnlineFishMart.OnlineFishMart.Model.Product;
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.File.FileModel;
 import com.tvm.OnlineFishMart.OnlineFishMart.Service.CategoryService;
 import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
@@ -98,9 +100,11 @@ public class CategoryController {
 
 	@PostMapping(value="/uploadimageCategory", consumes = {"multipart/form-data"})
 	public String uploadMultipartFilewithImage(@RequestParam("uploadfile") MultipartFile file,
-			@RequestParam String categoryName,@RequestParam String categoryDescription) {
+			@RequestParam String categoryName,@RequestParam String categoryDescription,
+			@RequestParam Integer quantity,@RequestParam BigDecimal price,@RequestParam Long productId) {
 		try {
-			Category ca=new Category( categoryName,categoryDescription,file.getBytes());
+			Product p=new Product(productId);
+			Category ca=new Category( categoryName,categoryDescription,file.getBytes(),quantity,price,p);
 			categoryService.save(ca);
 //			FileModel filemode = new FileModel(file.getOriginalFilename(), file.getContentType(), file.getBytes());
 //			fileRepository.save(filemode);

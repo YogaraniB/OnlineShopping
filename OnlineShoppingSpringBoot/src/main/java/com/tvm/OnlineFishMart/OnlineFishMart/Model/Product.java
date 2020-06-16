@@ -1,11 +1,21 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "product")
@@ -20,18 +30,22 @@ public class Product {
     @Length(min = 3, message = "*Name must have at least 5 characters")
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @JsonIgnore
+	@ElementCollection
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Category> categories;
 
-    @Column(name = "quantity", nullable = false)
-    @Min(value = 0, message = "*Quantity has to be non negative number")
-    private Integer quantity;
 
-    @Column(name = "price", nullable = false)
-    @DecimalMin(value = "0.00", message = "*Price has to be non negative number")
-    private BigDecimal price;
+    public List<Category> getCategories() {
+		return categories;
+	}
 
-    public Long getId() {
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -47,31 +61,13 @@ public class Product {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public Product(Long id) {
+		super();
+		this.id = id;
+	}
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal unitPrice) {
-        this.price = unitPrice;
-    }
-
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
