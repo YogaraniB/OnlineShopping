@@ -55,11 +55,7 @@ public class CategoryController {
 		getCategoryListWithImage(li.getId());
 		return categoryService.findOne(categoryId);
 	}
-	@PostMapping("/Categories")
-	public Category insert(@RequestBody Category i) {
-		logger.debug("Posting an Categories " + i.getCategoryName());
-		return categoryService.save(i);
-	}
+	
 	@GetMapping("/Categories")
 	public ResponseAPI getAll() {
 		logger.debug("Getting all Employees");
@@ -73,32 +69,8 @@ public class CategoryController {
 		ResponseAPI res1 = new ResponseAPI("Success", Boolean.TRUE, employees, employees.size());
 		return res1;
 	}
-	@PostMapping("/upload")
-	public String uploadMultipartFile(@RequestParam("uploadfile") MultipartFile file) {
-		try {
-			FileModel filemode = new FileModel(file.getOriginalFilename(), file.getContentType(), file.getBytes());
-			fileRepository.save(filemode);
-			return "File uploaded Successfully! , FileName =" + file.getOriginalFilename() + "; Id=" + filemode.getId();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "Failed";
-		}
-	}
 	
-	@GetMapping("/downloadFile/{fileId}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable Long fileId) {
-		// Load file from database
-		Optional<FileModel> dbFile = fileRepository.getFile(fileId);
-
-		FileModel newb = dbFile.get();
-
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(newb.getMimetype()))
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + newb.getName() + "\"")
-				.body(new ByteArrayResource(newb.getFile()));
-	}
-
-	@PostMapping(value="/uploadimageCategory", consumes = {"multipart/form-data"})
+	@PostMapping(value="/SaveCategory", consumes = {"multipart/form-data"})
 	public String uploadMultipartFilewithImage(@RequestParam("uploadfile") MultipartFile file,
 			@RequestParam String categoryName,@RequestParam String categoryDescription,
 			@RequestParam Integer quantity,@RequestParam BigDecimal price,@RequestParam Long productId) {
