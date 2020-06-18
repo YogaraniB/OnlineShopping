@@ -26,40 +26,39 @@ import com.tvm.OnlineFishMart.OnlineFishMart.Model.Category;
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.Product;
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.File.FileModel;
 import com.tvm.OnlineFishMart.OnlineFishMart.Service.CategoryService;
+import com.tvm.OnlineFishMart.OnlineFishMart.Service.ProductService;
 import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
 
 import io.swagger.annotations.Api;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RequestMapping("/api/v1")
-@Api(value = "Category Controller", description = "REST Apis related to Category Entity!!!!")
+@Api(value = "Product Controller", description = "REST Apis related to Product Entity!!!!")
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin("*")
 @EnableSwagger2
 @Validated
 //use @Validated annotation on top of controller so it is applicable to all methods in it.
-public class CategoryController {
+public class ProductController {
 
 	@Autowired
-	CategoryService categoryService;
+	ProductService productService;
 	
 	
 	@Autowired
 	com.tvm.OnlineFishMart.OnlineFishMart.Model.File.FileService fileRepository;
 
-	private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
+	private static Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-	@GetMapping("/getCategoryById/{categoryId}")
-	public Category getById(@PathVariable(value = "categoryId") Long categoryId) throws IOException {
-		logger.debug("Getting an Employee " + categoryId);
-		Category li=categoryService.findOne(categoryId);
-		getCategoryListWithImage(li.getId());
-		return categoryService.findOne(categoryId);
+	@GetMapping("/getProductById/{ProductId}")
+	public Product getById(@PathVariable(value = "ProductId") Long ProductId) throws IOException {
+		logger.debug("Getting an Employee " + ProductId);
+		return productService.findOne(ProductId);
 	}
 	
-	@GetMapping("/Categories")
+	@GetMapping("/Products")
 	public ResponseAPI getAll() {
 		logger.debug("Getting all Employees");
-		List<Category> employees = categoryService.findAll();
+		List<Product> employees = productService.findAll();
 //		Collections.sort(employees, Comparator.nullsLast(
 //				Comparator.comparing(EmployeeProfile::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder()))));
 		// Collections.sort(employees, (o1, o2) ->
@@ -69,18 +68,18 @@ public class CategoryController {
 		ResponseAPI res1 = new ResponseAPI("Success", Boolean.TRUE, employees, employees.size());
 		return res1;
 	}
-	
-	@PostMapping(value="/SaveCategory", consumes = {"multipart/form-data"})
+
+	@PostMapping(value="/SaveProduct", consumes = {"multipart/form-data"})
 	public String uploadMultipartFilewithImage(@RequestParam("uploadfile") MultipartFile file,
-			@RequestParam String categoryName,@RequestParam String categoryDescription,
-			@RequestParam Integer quantity,@RequestParam BigDecimal price,@RequestParam Long productId) {
+			@RequestParam String productName) {
 		try {
-			Product p=new Product(productId);
-			Category ca=new Category( categoryName,categoryDescription,file.getBytes(),quantity,price,p);
-			categoryService.save(ca);
+			Product p=new Product();
+			p.setName(productName);
+			p.setImgid(file.getBytes());
+			productService.save(p);
 //			FileModel filemode = new FileModel(file.getOriginalFilename(), file.getContentType(), file.getBytes());
 //			fileRepository.save(filemode);
-			return "File Saved Successfully! -Id is " +ca.getId();
+			return "File Saved Successfully! -Id is " +p.getId();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,9 +87,9 @@ public class CategoryController {
 		}
 	}
 	
-	@GetMapping("/getSingleCategory/{fileId}")
+	@GetMapping("/getSingleProduct/{fileId}")
 	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
-		Category li=categoryService.findOne(fileId);
+		Product li=productService.findOne(fileId);
 		logger.info("Getting image file");
 //	      byte [] data = li.getImgid();
 //	      ByteArrayInputStream bis = new ByteArrayInputStream(data);
@@ -98,9 +97,11 @@ public class CategoryController {
 //	      ImageIO.write(bImage2, "jpg", new File("output.jpg") );
 //	      System.out.println("image created");
 	      return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getCategoryName() + "\"")
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getName() + "\"")
 					.body(new ByteArrayResource(li.getImgid()));
 	}
+
+	
 	
 	
 }
