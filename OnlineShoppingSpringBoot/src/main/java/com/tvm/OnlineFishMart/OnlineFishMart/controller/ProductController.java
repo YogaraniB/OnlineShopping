@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tvm.OnlineFishMart.OnlineFishMart.Model.Category;
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.Product;
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.File.FileModel;
 import com.tvm.OnlineFishMart.OnlineFishMart.Service.CategoryService;
@@ -51,7 +52,6 @@ public class ProductController {
 	@GetMapping("/getProductById/{ProductId}")
 	public Product getById(@PathVariable(value = "ProductId") Long ProductId) throws IOException {
 		logger.debug("Getting an Employee " + ProductId);
-		Product li=productService.findOne(ProductId);
 		return productService.findOne(ProductId);
 	}
 	@PostMapping("/Products")
@@ -73,7 +73,37 @@ public class ProductController {
 		return res1;
 	}
 
+	@PostMapping(value="/SaveProduct", consumes = {"multipart/form-data"})
+	public String uploadMultipartFilewithImage(@RequestParam("uploadfile") MultipartFile file,
+			@RequestParam String productName) {
+		try {
+			Product p=new Product();
+			p.setName(productName);
+			p.setImgid(file.getBytes());
+			productService.save(p);
+//			FileModel filemode = new FileModel(file.getOriginalFilename(), file.getContentType(), file.getBytes());
+//			fileRepository.save(filemode);
+			return "File Saved Successfully! -Id is " +p.getId();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Failed";
+		}
+	}
 	
+	@GetMapping("/getSingleProduct/{fileId}")
+	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
+		Product li=productService.findOne(fileId);
+		logger.info("Getting image file");
+//	      byte [] data = li.getImgid();
+//	      ByteArrayInputStream bis = new ByteArrayInputStream(data);
+//	      BufferedImage bImage2 = ImageIO.read(bis);
+//	      ImageIO.write(bImage2, "jpg", new File("output.jpg") );
+//	      System.out.println("image created");
+	      return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getName() + "\"")
+					.body(new ByteArrayResource(li.getImgid()));
+	}
 
 	
 	

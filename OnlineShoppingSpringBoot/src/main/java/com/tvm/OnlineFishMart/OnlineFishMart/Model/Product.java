@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -40,8 +41,19 @@ public class Product {
             cascade = CascadeType.ALL)
     private List<Category> categories;
 
+    @Lob
+	private byte[] imgid;
+    
+    
+    public byte[] getImgid() {
+		return imgid;
+	}
 
-    public List<Category> getCategories() {
+	public void setImgid(byte[] imgid) {
+		this.imgid = imgid;
+	}
+
+	public List<Category> getCategories() {
 		return categories;
 	}
 
@@ -76,13 +88,6 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(Long id, @Length(min = 3, message = "*Name must have at least 5 characters") String name,
-			List<Category> categories) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.categories = categories;
-	}
 
 	@Override
     public boolean equals(Object o) {
