@@ -67,6 +67,19 @@ public class Product {
 		this.id = id;
 	}
 
+	public Product() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Product(Long id, @Length(min = 3, message = "*Name must have at least 5 characters") String name,
+			List<Category> categories) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.categories = categories;
+	}
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
