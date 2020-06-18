@@ -35,12 +35,5 @@ export class UserSignupService {
     return this.http.get(this.baseUrl+"/UserSignUps");
   }
 
-  getUserSignUpListAutoComplete(name:String):Observable<any> {
-    return this.http.get(this.baseUrl+"/UserSignUpsByName1.8/"+name);
-  }
-
-  getUserSignUpListIdAutoComplete(empId:number):Observable<any> {
-    return this.http.get(this.baseUrl+"/UserSignUpsById1.8/"+empId);
-  }
   
 }

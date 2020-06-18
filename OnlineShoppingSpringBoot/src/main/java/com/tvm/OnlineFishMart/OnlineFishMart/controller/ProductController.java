@@ -54,11 +54,7 @@ public class ProductController {
 		logger.debug("Getting an Employee " + ProductId);
 		return productService.findOne(ProductId);
 	}
-	@PostMapping("/Products")
-	public Product insert(@RequestBody Product i) {
-		logger.debug("Posting an Categories " + i.getName());
-		return productService.save(i);
-	}
+	
 	@GetMapping("/Products")
 	public ResponseAPI getAll() {
 		logger.debug("Getting all Employees");
