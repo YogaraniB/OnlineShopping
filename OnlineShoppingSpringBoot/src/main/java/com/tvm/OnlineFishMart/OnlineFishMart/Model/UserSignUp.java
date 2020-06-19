@@ -1,13 +1,25 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -19,11 +31,24 @@ public class UserSignUp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
 	private String userName;
-	private String address;
+	@Embedded
+	private Address address;
 	private Integer phone;
 	private String email;
 	private String password;
-	public UserSignUp(Integer userId, String userName, String address, Integer phone, String email, String password) {
+	@Temporal(TemporalType.TIMESTAMP)
+	@LastModifiedDate
+	private Date createdAt;
+	
+	 @JsonIgnore
+	 @ElementCollection
+	 @OneToMany(mappedBy = "customerId", fetch = FetchType.LAZY,
+	            cascade = CascadeType.ALL)
+	  private List<Order> order;
+	
+	 
+	public UserSignUp(Integer userId, String userName, Address address, Integer phone, String email, String password,
+			Date createdAt, List<Order> order) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -31,6 +56,21 @@ public class UserSignUp {
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
+		this.createdAt = createdAt;
+		this.order = order;
+	}
+	
+	public List<Order> getOrder() {
+		return order;
+	}
+	public void setOrder(List<Order> order) {
+		this.order = order;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	public UserSignUp() {
 		super();
@@ -48,10 +88,10 @@ public class UserSignUp {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 	public Integer getPhone() {
