@@ -36,10 +36,16 @@ public class UserSignUp extends Audit{
 	 @OneToMany(mappedBy = "customerId", fetch = FetchType.LAZY,
 	            cascade = CascadeType.ALL)
 	  private List<Order> order;
-	
+	 @JsonIgnore
+	 @ElementCollection
+	 @OneToMany(mappedBy = "usersignupid", fetch = FetchType.LAZY,
+	            cascade = CascadeType.ALL)
+	  private List<Cart> cart;
 	 
+	
+	
 	public UserSignUp(Integer userId, String userName, Address address, Long phone, String email, String password,
-			List<Order> order) {
+			List<Order> order, List<Cart> cart) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -48,8 +54,14 @@ public class UserSignUp extends Audit{
 		this.email = email;
 		this.password = password;
 		this.order = order;
+		this.cart = cart;
 	}
-	
+	public List<Cart> getCart() {
+		return cart;
+	}
+	public void setCart(List<Cart> cart) {
+		this.cart = cart;
+	}
 	public List<Order> getOrder() {
 		return order;
 	}

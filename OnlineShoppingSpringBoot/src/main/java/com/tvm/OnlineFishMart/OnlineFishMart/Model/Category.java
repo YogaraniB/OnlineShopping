@@ -50,39 +50,36 @@ public class Category extends Audit{
     @JoinColumn(name = "productId", nullable = false)
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cartId", nullable = false)
+    private Cart cartId;
+  
 
-	public Category(@Length(min = 3, message = "*Name must have at least 5 characters") String categoryName,
-			String categoryDescription, byte[] imgid,
-			@Min(value = 0, message = "*Quantity has to be non negative number") Integer quantity,
-			@DecimalMin(value = "0.00", message = "*Price has to be non negative number") BigDecimal price) {
-		super();
-		this.categoryName = categoryName;
-		this.categoryDescription = categoryDescription;
-		this.imgid = imgid;
-		this.quantity = quantity;
-		this.price = price;
-	}
-
-	
-	
-
-
-	public Category(@Length(min = 3, message = "*Name must have at least 5 characters") String categoryName,
+	public Category(Long id, @Length(min = 3, message = "*Name must have at least 5 characters") String categoryName,
 			String categoryDescription, byte[] imgid,
 			@Min(value = 0, message = "*Quantity has to be non negative number") Integer quantity,
 			@DecimalMin(value = "0.00", message = "*Price has to be non negative number") BigDecimal price,
-			Product product) {
+			Product product, Cart cartId) {
 		super();
+		this.id = id;
 		this.categoryName = categoryName;
 		this.categoryDescription = categoryDescription;
 		this.imgid = imgid;
 		this.quantity = quantity;
 		this.price = price;
 		this.product = product;
+		this.cartId = cartId;
 	}
 
 
+	public Cart getCartId() {
+		return cartId;
+	}
 
+
+	public void setCartId(Cart cartId) {
+		this.cartId = cartId;
+	}
 
 
 	public Product getProduct() {

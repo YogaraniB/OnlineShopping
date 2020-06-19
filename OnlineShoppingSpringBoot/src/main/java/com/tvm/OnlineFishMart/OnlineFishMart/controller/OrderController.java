@@ -44,12 +44,6 @@ public class OrderController {
 	public ResponseAPI getAll() {
 		logger.debug("Getting all Orders");
 		List<Order> Orders = orderService.findAll();
-//		Collections.sort(Orders, Comparator.nullsLast(
-//				Comparator.comparing(Order::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder()))));
-		// Collections.sort(Orders, (o1, o2) ->
-		// o1.getCreatedAt().compareTo(o2.getCreatedAt()));
-		// Collections.reverse(Orders);
-		// Comparator.nullsFirst(Comparator.comparing(Order::getCreatedAt,Comparator.nullsFirst(Comparator.reverseOrder())));
 		ResponseAPI res1 = new ResponseAPI("Success", Boolean.TRUE, Orders, Orders.size());
 		return res1;
 	}
@@ -60,19 +54,6 @@ public class OrderController {
 		return orderService.save(i);
 	}
 
-//	@GetMapping("/OrdersByName1.8/{site}/{client}")
-//	public List<Order> OrderByRange(@PathVariable(value = "site") String site,
-//			@PathVariable(value = "client") String client) {
-//		return orderService.findAll().stream()
-//				.filter(x -> x.getSite().equalsIgnoreCase(site) && x.getClient().equalsIgnoreCase(client))
-//				.collect(Collectors.toList());
-//	}
-
-//	@GetMapping("/OrdersByName1.8/{name}")
-//	public List<Order> OrderAutocomplete(@PathVariable(value = "name") String name) {	
-//		return orderService.findAll().stream().filter(x -> x.getFirstName().startsWith(name))
-//				.collect(Collectors.toList());
-//	}
 
 	@PutMapping("/Order/{id}")
 	public Order update(@PathVariable(value = "id") Integer id, @RequestBody Order emp) {

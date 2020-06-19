@@ -59,12 +59,6 @@ public class ProductController {
 	public ResponseAPI getAll() {
 		logger.debug("Getting all Employees");
 		List<Product> employees = productService.findAll();
-//		Collections.sort(employees, Comparator.nullsLast(
-//				Comparator.comparing(EmployeeProfile::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder()))));
-		// Collections.sort(employees, (o1, o2) ->
-		// o1.getCreatedAt().compareTo(o2.getCreatedAt()));
-		// Collections.reverse(employees);
-		// Comparator.nullsFirst(Comparator.comparing(Employee::getCreatedAt,Comparator.nullsFirst(Comparator.reverseOrder())));
 		ResponseAPI res1 = new ResponseAPI("Success", Boolean.TRUE, employees, employees.size());
 		return res1;
 	}
@@ -77,8 +71,6 @@ public class ProductController {
 			p.setName(productName);
 			p.setImgid(file.getBytes());
 			productService.save(p);
-//			FileModel filemode = new FileModel(file.getOriginalFilename(), file.getContentType(), file.getBytes());
-//			fileRepository.save(filemode);
 			return "File Saved Successfully! -Id is " +p.getId();
 
 		} catch (Exception e) {
@@ -91,12 +83,7 @@ public class ProductController {
 	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
 		Product li=productService.findOne(fileId);
 		logger.info("Getting image file");
-//	      byte [] data = li.getImgid();
-//	      ByteArrayInputStream bis = new ByteArrayInputStream(data);
-//	      BufferedImage bImage2 = ImageIO.read(bis);
-//	      ImageIO.write(bImage2, "jpg", new File("output.jpg") );
-//	      System.out.println("image created");
-	      return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
 					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getName() + "\"")
 					.body(new ByteArrayResource(li.getImgid()));
 	}
