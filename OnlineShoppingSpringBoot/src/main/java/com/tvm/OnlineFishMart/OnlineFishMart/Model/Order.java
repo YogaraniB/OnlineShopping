@@ -3,6 +3,7 @@ package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name="OrderDetails")
-public class Order {
+public class Order extends Audit{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
