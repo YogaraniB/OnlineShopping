@@ -1,6 +1,9 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.controller;
 
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,15 +52,15 @@ public class UserSignUpController {
 	}
 
 	@GetMapping("/UserSignUps")
-	public ResponseEntity<List<UserSignUp>> getAll() {
+	public ResponseEntity<ResponseAPI> getAll() {
 		logger.debug("Getting all UserSignUps");
 		List<UserSignUp> UserSignUps = userSignUpService.findAll();
 		ResponseAPI res1 = new ResponseAPI("Success", Boolean.TRUE, UserSignUps, UserSignUps.size());
-		return new ResponseEntity<List<UserSignUp>>(UserSignUps, HttpStatus.OK);
+		return new ResponseEntity<ResponseAPI>(res1, HttpStatus.OK);
 	}
 
 	@PostMapping("/UserSignUps")
-	public ResponseEntity<ResponseAPI> insert(@RequestBody UserSignUp i) {
+	public ResponseEntity<ResponseAPI> insert(@Valid @RequestBody UserSignUp i) {
 		logger.debug("Posting an UserSignUp " + i.getUserName());
 		UserSignUp newUser =userSignUpService.save(i);
 		ResponseAPI res1 = new ResponseAPI("Successfully Created User Id-" +i.getUserId(), Boolean.TRUE);

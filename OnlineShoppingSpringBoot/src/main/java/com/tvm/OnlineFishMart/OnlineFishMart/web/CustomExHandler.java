@@ -1,9 +1,13 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.web;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +23,9 @@ public class CustomExHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<Object> handleResourceNotFoundException(Exception ex, WebRequest req){
-		ErrorMessage errorMessage=new ErrorMessage(new Date(), ex.getMessage(), "yoga@lnt.com",
+		List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+		ErrorMessage errorMessage=new ErrorMessage(new Date(), details, "yoga@lnt.com",
 				req.getDescription(false));
 		ResponseAPI error=new ResponseAPI(ex.getMessage(),Boolean.FALSE);
 		return new ResponseEntity<Object>(errorMessage, HttpStatus.NOT_FOUND);
@@ -31,15 +37,21 @@ public class CustomExHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid
 	(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		List<String> details = new ArrayList<>();
+        for(ObjectError error : ex.getBindingResult().getAllErrors()) {
+            details.add(error.getDefaultMessage());
+        }
 		ErrorMessage errorMessage=new ErrorMessage
-				(new Date(), "data is not valid please refer doc", "yoga@lnt.com", 
+				(new Date(), details, "yoga@lnt.com", 
 						request.getDescription(false));
 		return new ResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleAllUnclassifiedEx(Exception ex, WebRequest req){
-		ErrorMessage errorMessage=new ErrorMessage(new Date(), ex.getMessage(), "yoga@lnt.com",
+		List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+		ErrorMessage errorMessage=new ErrorMessage(new Date(), details, "yoga@lnt.com",
 				req.getDescription(false));
 		return new ResponseEntity<Object>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 	}	

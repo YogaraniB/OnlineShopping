@@ -31,9 +31,10 @@ public class UserSignUp extends Audit{
 	@Embedded
 	private Address address;
 	private Long phone;
-	@NotEmpty(message = "email must not be empty")
-    @Email(message = "email should be a valid email")
+	@NotEmpty(message = "Email must not be empty")
+    @Email(message = "Email should be a valid email")
 	private String email;
+	@NotEmpty(message = "Password must not be empty")
 	private String password;
 	 @JsonIgnore
 	 @ElementCollection
