@@ -1,9 +1,6 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.web;
 
-
-
 import java.util.Date;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +27,7 @@ public class CustomExHandler extends ResponseEntityExceptionHandler {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
+	@ExceptionHandler(ValidationException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValid
 	(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -45,8 +43,6 @@ public class CustomExHandler extends ResponseEntityExceptionHandler {
 				req.getDescription(false));
 		return new ResponseEntity<Object>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 	}	
-	
-	
 }
 
 
