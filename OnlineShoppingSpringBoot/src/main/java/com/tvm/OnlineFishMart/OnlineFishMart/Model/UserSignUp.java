@@ -1,29 +1,56 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-public class UserSignUp {
+public class UserSignUp extends Audit{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
 	private String userName;
-	private String address;
-	private Integer phone;
+	@Embedded
+	private Address address;
+	private Long phone;
+	@NotEmpty(message = "Email must not be empty")
+    @Email(message = "Email should be a valid email")
 	private String email;
+	@NotEmpty(message = "Password must not be empty")
 	private String password;
-	public UserSignUp(Integer userId, String userName, String address, Integer phone, String email, String password) {
+	 @JsonIgnore
+	 @ElementCollection
+	 @OneToMany(mappedBy = "customerId", fetch = FetchType.LAZY,
+	            cascade = CascadeType.ALL)
+	  private List<Order> order;
+	 @JsonIgnore
+	 @ElementCollection
+	 @OneToMany(mappedBy = "usersignupid", fetch = FetchType.LAZY,
+	            cascade = CascadeType.ALL)
+	  private List<Cart> cart;
+	 
+	
+	
+	public UserSignUp(Integer userId, String userName, Address address, Long phone, String email, String password,
+			List<Order> order, List<Cart> cart) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -31,7 +58,22 @@ public class UserSignUp {
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
+		this.order = order;
+		this.cart = cart;
 	}
+	public List<Cart> getCart() {
+		return cart;
+	}
+	public void setCart(List<Cart> cart) {
+		this.cart = cart;
+	}
+	public List<Order> getOrder() {
+		return order;
+	}
+	public void setOrder(List<Order> order) {
+		this.order = order;
+	}
+	
 	public UserSignUp() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -48,16 +90,16 @@ public class UserSignUp {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public Integer getPhone() {
+	public Long getPhone() {
 		return phone;
 	}
-	public void setPhone(Integer phone) {
+	public void setPhone(Long phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {
@@ -72,6 +114,7 @@ public class UserSignUp {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	
 	
 	
