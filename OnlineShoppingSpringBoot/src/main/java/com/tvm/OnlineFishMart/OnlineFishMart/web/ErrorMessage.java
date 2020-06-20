@@ -4,9 +4,12 @@ package com.tvm.OnlineFishMart.OnlineFishMart.web;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 //u can customize this class as per ur requirment? bean!
 public class ErrorMessage {
-
+ @Temporal(value = TemporalType.DATE)
 	private Date date;
 	private List<String> message;
 	private String toContact;

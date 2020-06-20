@@ -67,7 +67,7 @@ public class OrderController {
 		orderService.save(i);
 		this.Body="Hai " +i.getCustomerId().getUserName()+", Your Order is Successfully Placed and your order ID is "
 		+i.getOrderId()
-		+"Thanks for Shopping with us!!   Happy Shopping!!!";
+		+" Thanks for Shopping with us!!   Happy Shopping!!!";
 		smtpMailSender.send(i.getCustomerId().getEmail(),this.Subject,this.Body);
 		return orderService.save(i);
 	}

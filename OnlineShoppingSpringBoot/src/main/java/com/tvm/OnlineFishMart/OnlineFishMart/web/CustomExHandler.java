@@ -33,7 +33,7 @@ public class CustomExHandler extends ResponseEntityExceptionHandler {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	@ExceptionHandler(ValidationException.class)
+	
 	protected ResponseEntity<Object> handleMethodArgumentNotValid
 	(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
