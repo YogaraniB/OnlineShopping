@@ -65,9 +65,13 @@ public class OrderController {
 	public Order insert(@RequestBody Order i) throws MessagingException {
 		logger.debug("Posting an Order " + i.getOrderId());
 		orderService.save(i);
-		this.Body="Hai " +i.getCustomerId().getUserName()+", Your Order is Successfully Placed and your order ID is "
-		+i.getOrderId()
-		+" Thanks for Shopping with us!!   Happy Shopping!!!";
+//		this.Body="Hai " +i.getCustomerId().getUserName()+", Your Order is Successfully Placed and your order ID is "
+//		+i.getOrderId()
+//		+" Thanks for Shopping with us!!   Happy Shopping!!!";
+		this.Body="<html><body style='color:#2A6EBB'><h3><b>Hai "  +i.getCustomerId().getUserName() +",</b><br>"
+				+"Your Order is Successfully Placed and your order ID is " +i.getOrderId() +",<br>"
+				+" Thanks for Shopping with us!! <br>  Happy Shopping!!!<br>"
+				+"</h3></body></html>";
 		smtpMailSender.send(i.getCustomerId().getEmail(),this.Subject,this.Body);
 		return orderService.save(i);
 	}
