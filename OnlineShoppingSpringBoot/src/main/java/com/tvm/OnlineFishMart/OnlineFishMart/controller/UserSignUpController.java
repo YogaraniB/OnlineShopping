@@ -4,6 +4,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.UserSignUp;
 import com.tvm.OnlineFishMart.OnlineFishMart.Service.UserSignUpService;
+import com.tvm.OnlineFishMart.OnlineFishMart.web.ResourceNotFoundException;
 import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
 
 import io.swagger.annotations.Api;
@@ -36,23 +39,29 @@ public class UserSignUpController {
 	private static Logger logger = LoggerFactory.getLogger(UserSignUpController.class);
 
 	@GetMapping("/getUserSignUpById/{empId}")
-	public UserSignUp getById(@PathVariable(value = "empId") Integer empId) {
+	public ResponseEntity<UserSignUp> getById(@PathVariable(value = "empId") Integer empId) {
 		logger.debug("Getting an UserSignUp " + empId);
-		return userSignUpService.findOne(empId);
+		UserSignUp p=userSignUpService.findOne(empId);
+		if(p==null) {
+			throw new ResourceNotFoundException("Resource is not found:" + empId);
+		}
+		return new ResponseEntity<UserSignUp>(p, HttpStatus.OK);
 	}
 
 	@GetMapping("/UserSignUps")
-	public ResponseAPI getAll() {
+	public ResponseEntity<List<UserSignUp>> getAll() {
 		logger.debug("Getting all UserSignUps");
 		List<UserSignUp> UserSignUps = userSignUpService.findAll();
 		ResponseAPI res1 = new ResponseAPI("Success", Boolean.TRUE, UserSignUps, UserSignUps.size());
-		return res1;
+		return new ResponseEntity<List<UserSignUp>>(UserSignUps, HttpStatus.OK);
 	}
 
 	@PostMapping("/UserSignUps")
-	public UserSignUp insert(@RequestBody UserSignUp i) {
+	public ResponseEntity<ResponseAPI> insert(@RequestBody UserSignUp i) {
 		logger.debug("Posting an UserSignUp " + i.getUserName());
-		return userSignUpService.save(i);
+		UserSignUp newUser =userSignUpService.save(i);
+		ResponseAPI res1 = new ResponseAPI("Successfully Created User Id-" +i.getUserId(), Boolean.TRUE);
+		return new ResponseEntity<ResponseAPI>(res1,HttpStatus.CREATED);
 	}
 
 	@PutMapping("/UserSignUp/{id}")

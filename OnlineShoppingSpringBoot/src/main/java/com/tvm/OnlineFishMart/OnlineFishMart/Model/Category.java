@@ -17,6 +17,7 @@ import javax.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -49,7 +50,7 @@ public class Category extends Audit{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "productId", nullable = false)
     private Product product;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cartId", nullable = false)
     private Cart cartId;

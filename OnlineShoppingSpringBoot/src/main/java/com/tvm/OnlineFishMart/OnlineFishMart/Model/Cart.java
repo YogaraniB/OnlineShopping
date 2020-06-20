@@ -27,7 +27,7 @@ public class Cart {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer cartId;
-	@JsonIgnore
+	
 	 @ElementCollection
 	 @OneToMany(mappedBy = "cartId", fetch = FetchType.LAZY,
 	            cascade = CascadeType.ALL)
