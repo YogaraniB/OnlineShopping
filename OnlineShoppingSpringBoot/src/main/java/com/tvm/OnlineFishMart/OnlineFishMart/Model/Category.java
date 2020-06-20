@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
-public class Category extends Audit{
+public class Category {
 
 	@Id
 	@GeneratedValue
@@ -51,8 +51,8 @@ public class Category extends Audit{
     @JoinColumn(name = "productId", nullable = false)
     private Product product;
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cartId", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "cartId", nullable = true)
     private Cart cartId;
   
 

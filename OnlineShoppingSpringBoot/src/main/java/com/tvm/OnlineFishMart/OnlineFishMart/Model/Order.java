@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name="OrderDetails")
-public class Order extends Audit{
+public class Order {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
