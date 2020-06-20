@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,6 +31,8 @@ public class UserSignUp extends Audit{
 	@Embedded
 	private Address address;
 	private Long phone;
+	@NotEmpty(message = "email must not be empty")
+    @Email(message = "email should be a valid email")
 	private String email;
 	private String password;
 	 @JsonIgnore
