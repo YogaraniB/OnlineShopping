@@ -31,12 +31,14 @@ public class ProductService {
 	// update an EmployeeProfile
 	public Product update(Product emp) {
 		Optional<Product> ob = productRepo.findById(emp.getId());
-
 		if (ob.isPresent()) {
 			Product newb = ob.get();
-//			newb.setUserName(emp.getUserName());
-//			newb.setPassword(emp.getPassword());
-//			newb = productRepo.save(newb);
+			System.out.println(newb.getDescription() +" Old");
+			//newb.setCategories(emp.getCategories());
+			newb.setDescription(emp.getDescription());
+			newb.setImgid(emp.getImgid());
+			newb.setName(emp.getName());
+			System.out.println(newb.getDescription() +" New");
 			return newb;
 		} else {
 			emp = productRepo.save(emp);

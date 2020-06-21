@@ -1,0 +1,18 @@
+<div class="row">
+  <div *ngFor="let product of productList" class="col">
+<div >
+<div class="card border" style="width: 18rem;">
+  <div class="card-header">
+    {{product.name}}
+  </div>
+  <img class="card-img-top" src="data:image/png;base64,{{product.imgid}}"  alt="Card image cap">
+  <div class="card-body">
+    <p class="card-text">{{product.description}}</p>
+  </div>
+  <div class="card-footer text-muted">
+    Footer
+  </div>
+</div>
+</div>
+</div>
+</div>
