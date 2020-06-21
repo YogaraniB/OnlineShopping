@@ -52,7 +52,7 @@ public class UserSignUpService {
 	// get an EmployeeProfile by id
 	public UserSignUp findOne(Integer empid) {
 		Optional<UserSignUp> ob = userSignUpRepo.findById(empid);
-		ob.orElseThrow(() -> new ResourceNotFoundException("No employee found with employee id " + empid));
+		ob.orElseThrow(() -> new ResourceNotFoundException("No User found with  id " + empid));
 		return userSignUpRepo.getOne(empid);
 	}
 

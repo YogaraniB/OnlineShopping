@@ -47,7 +47,7 @@ public class ProductService {
 	// get an EmployeeProfile by id
 	public Product findOne(Long empid) {
 		Optional<Product> ob = productRepo.findById(empid);
-		ob.orElseThrow(() -> new ResourceNotFoundException("No employee found with employee id " + empid));
+		ob.orElseThrow(() -> new ResourceNotFoundException("No Product found with  id " + empid));
 		return productRepo.getOne(empid);
 	}
 
