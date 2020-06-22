@@ -22,10 +22,10 @@
                    Password <span style="color:#FF0000">*</span> 
                    <br><input type="password" name="password"  [(ngModel)]="password" style="color: #000;" >
                    <br>
-                  
+                   <div *ngIf="invalidLogin" [ngStyle]="{'color':'red'}">INVALID CREDENTIALS</div>
                    <br>
                    <br>
-                   <button   class="btn-aspen-orange">
+                   <button  (click)="checkLogin()" class="btn btn-success">
                       Login
                    </button>
                 </div>

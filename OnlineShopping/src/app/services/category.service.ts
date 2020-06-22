@@ -24,8 +24,8 @@ export class CategoryService {
   }
 
   createCategory(categoryName,categoryDescription,price,productd,quantity,uploadfile): Observable<Object> {
-    return this.http.post(`${this.baseUrl}/SaveCategory`,categoryName,categoryDescription
-    ,price,productd,quantity,uploadfile);
+    return this.http.post(`${this.baseUrl}/SaveCategory`,categoryName,categoryDescription);
+    // ,price,productd,quantity,uploadfile);
   }
   deleteCategory(id: number): Observable<any> {
     return this.http.delete(this.baseUrl+"/Category/" +id);
