@@ -29,19 +29,20 @@ public class ProductService {
 	}
 
 	// update an EmployeeProfile
-	public Product update(Product emp) {
-		Optional<Product> ob = productRepo.findById(emp.getId());
+	public Product update(Long productId, String productName, byte[] bytes, String productDescription) {
+		Optional<Product> ob = productRepo.findById(productId);
+		Product emp=new Product();
 		if (ob.isPresent()) {
 			Product newb = ob.get();
 			System.out.println(newb.getDescription() +" Old");
 			//newb.setCategories(emp.getCategories());
-			newb.setDescription(emp.getDescription());
-			newb.setImgid(emp.getImgid());
-			newb.setName(emp.getName());
+			newb.setDescription(productDescription);
+			newb.setImgid(bytes);
+			newb.setName(productName);
 			System.out.println(newb.getDescription() +" New");
 			return newb;
 		} else {
-			emp = productRepo.save(emp);
+			 emp = productRepo.save(emp);
 			return emp;
 		}
 	}
@@ -57,6 +58,8 @@ public class ProductService {
 	public void delete(Long empid) {
 		productRepo.deleteById(empid);
 	}
+
+	
 	
 	
 

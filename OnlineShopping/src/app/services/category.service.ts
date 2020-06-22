@@ -35,5 +35,9 @@ export class CategoryService {
     return this.http.get(this.baseUrl+"/Categorys");
   }
 
+  findCategoriesByProduct(id): Observable<any> {
+    return this.http.get(`${this.baseUrl}/findCategoriesByProduct/${id}`);
+  }
+
   
 }

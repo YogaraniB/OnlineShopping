@@ -91,7 +91,7 @@ public class ProductController {
 			p.setName(productName);
 			p.setImgid(file.getBytes());
 			p.setDescription(productDescription);
-			productService.update(p);
+			productService.update(ProductId,productName,file.getBytes(),productDescription);
 			return "File Updated Successfully! -Id is " +p.getId();
 
 		} catch (Exception e) {

@@ -1,0 +1,37 @@
+<div  >
+    <div class="card bg-dark text-white" style="width: 52rem;">
+       <img class="card-img"
+          src="https://i.pinimg.com/originals/8e/02/26/8e0226b5b8244e46448cc25b4d27151c.jpg"
+          width="20%" height="100%" />
+       <div class="card-img-overlay">
+    
+          <div class="text-center">
+             <h2 class="card-title text-white"><b><u>Amazon Login</u></b></h2>
+             <div class="card-body ">
+                <div>
+                   User Role <span style="color:#FF0000">*</span>
+                   <br>
+                   <select [(ngModel)]="userRole" style="width:33%;color: #000;">
+                      <option value="" disabled>Select Role</option>
+                      <option *ngFor="let designation of userRoleList" [ngValue]="designation">{{designation}}</option>
+                    </select>
+                   <br><br>
+                   Admin/User Id <span style="color:#FF0000">*</span>
+                   <br> <input type="text" name="userId" [(ngModel)]="userId" style="color: #000;" >
+                   <br><br>
+                   Password <span style="color:#FF0000">*</span> 
+                   <br><input type="password" name="password"  [(ngModel)]="password" style="color: #000;" >
+                   <br>
+                  
+                   <br>
+                   <br>
+                   <button   class="btn-aspen-orange">
+                      Login
+                   </button>
+                </div>
+             </div>
+          </div>
+       </div>
+    
+    </div>
+    </div>

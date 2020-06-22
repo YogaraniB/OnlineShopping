@@ -92,4 +92,8 @@ public class CategoryController {
 				.body(new ByteArrayResource(li.getImgid()));
 	}
 
+	@GetMapping("/findCategoriesByProduct/{productId}")
+	public List<Category> findByProduct(@PathVariable Long productId){
+	return categoryService.findByProduct(productId);
+	}
 }
