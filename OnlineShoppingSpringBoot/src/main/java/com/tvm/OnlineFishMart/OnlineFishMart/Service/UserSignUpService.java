@@ -37,7 +37,6 @@ public class UserSignUpService {
 			UserSignUp newb = ob.get();
 			newb.setAddress(emp.getAddress());
 			newb.setEmail(emp.getEmail());
-			newb.setModifiedAt(new Date());
 			newb.setPhone(emp.getPhone());
 			newb.setUserName(emp.getUserName());
 			newb.setPassword(emp.getPassword());
