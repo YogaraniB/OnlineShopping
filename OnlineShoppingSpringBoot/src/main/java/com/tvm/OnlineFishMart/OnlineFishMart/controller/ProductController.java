@@ -99,14 +99,14 @@ public class ProductController {
 			return "Failed";
 		}
 	}
-	@GetMapping("/getSingleProduct/{fileId}")
-	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
-		Product li=productService.findOne(fileId);
-		logger.info("Getting image file");
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getName() + "\"")
-					.body(new ByteArrayResource(li.getImgid()));
-	}
+//	@GetMapping("/getSingleProduct/{fileId}")
+//	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
+//		Product li=productService.findOne(fileId);
+//		logger.info("Getting image file");
+//		return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
+//					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getName() + "\"")
+//					.body(new ByteArrayResource(li.getImgid()));
+//	}
 
 	
 	
