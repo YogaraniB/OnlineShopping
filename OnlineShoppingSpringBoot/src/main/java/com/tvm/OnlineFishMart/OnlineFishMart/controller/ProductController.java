@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,11 +66,12 @@ public class ProductController {
 
 	@PostMapping(value="/SaveProduct", consumes = {"multipart/form-data"})
 	public String uploadMultipartFilewithImage(@RequestParam("uploadfile") MultipartFile file,
-			@RequestParam String productName) {
+			@RequestParam String productName,@RequestParam String productDescription) {
 		try {
 			Product p=new Product();
 			p.setName(productName);
 			p.setImgid(file.getBytes());
+			p.setDescription(productDescription);
 			productService.save(p);
 			return "File Saved Successfully! -Id is " +p.getId();
 
@@ -79,14 +81,32 @@ public class ProductController {
 		}
 	}
 	
-	@GetMapping("/getSingleProduct/{fileId}")
-	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
-		Product li=productService.findOne(fileId);
-		logger.info("Getting image file");
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getName() + "\"")
-					.body(new ByteArrayResource(li.getImgid()));
+	@PutMapping(value="/UpdateProduct/{ProductId}", consumes = {"multipart/form-data"})
+	public String updateProductwithImage(@PathVariable(value = "ProductId") Long ProductId,
+			@RequestParam("uploadfile") MultipartFile file,
+			@RequestParam String productName,@RequestParam String productDescription) {
+		try {
+			Product p=productService.findOne(ProductId);
+			p.setId(ProductId);
+			p.setName(productName);
+			p.setImgid(file.getBytes());
+			p.setDescription(productDescription);
+			productService.update(ProductId,productName,file.getBytes(),productDescription);
+			return "File Updated Successfully! -Id is " +p.getId();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Failed";
+		}
 	}
+//	@GetMapping("/getSingleProduct/{fileId}")
+//	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
+//		Product li=productService.findOne(fileId);
+//		logger.info("Getting image file");
+//		return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
+//					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" +li.getName() + "\"")
+//					.body(new ByteArrayResource(li.getImgid()));
+//	}
 
 	
 	

@@ -1,6 +1,7 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -19,6 +20,7 @@ import javax.persistence.TemporalType;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -31,7 +33,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer orderId;
 	
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd/MM/yyyy")
     private Date orderDate;
   
     private BigDecimal amount;
