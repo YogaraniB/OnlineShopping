@@ -22,7 +22,6 @@ import io.swagger.annotations.Api;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1")
-@EnableSwagger2
 @CrossOrigin("*")
 @Api(value = "Online Shopping", description = "REST Apis related to Cart Entity!!!!")
 @Validated

@@ -49,7 +49,6 @@ public class CategoryController {
 	public Category getById(@PathVariable(value = "categoryId") Long categoryId) throws IOException {
 		logger.debug("Getting an Employee " + categoryId);
 		Category li = categoryService.findOne(categoryId);
-		getCategoryListWithImage(li.getId());
 		return categoryService.findOne(categoryId);
 	}
 
@@ -83,14 +82,14 @@ public class CategoryController {
 		}
 	}
 
-	@GetMapping("/getSingleCategory/{fileId}")
-	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
-		Category li = categoryService.findOne(fileId);
-		logger.info("Getting image file");
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + li.getCategoryName() + "\"")
-				.body(new ByteArrayResource(li.getImgid()));
-	}
+//	@GetMapping("/getSingleCategory/{fileId}")
+//	public ResponseEntity<Resource> getCategoryListWithImage(@PathVariable Long fileId) throws IOException {
+//		Category li = categoryService.findOne(fileId);
+//		logger.info("Getting image file");
+//		return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/png"))
+//				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + li.getCategoryName() + "\"")
+//				.body(new ByteArrayResource(li.getImgid()));
+//	}
 
 	@GetMapping("/findCategoriesByProduct/{productId}")
 	public List<Category> findByProduct(@PathVariable Long productId){
