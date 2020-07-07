@@ -29,8 +29,10 @@ public class Cart {
 	private Integer cartId;
 	
 	 @ElementCollection
-	 @OneToMany(mappedBy = "cartId", fetch = FetchType.LAZY,
-	            cascade = CascadeType.ALL)
+	 @OneToMany(mappedBy = "cartId",fetch = FetchType.EAGER,
+		        cascade = {
+		                CascadeType.MERGE,
+		                CascadeType.REFRESH})
 	  private List<Category> category;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "usersignupid", nullable = false)

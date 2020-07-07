@@ -1,0 +1,23 @@
+<h1>{{productId}}</h1>
+<div class="row" >
+<div *ngFor="let category of categoryList">
+    <div class="col border">
+        <div class="card border" style="width: 10rem;">
+          <div class="card-header">
+            {{category.categoryName}}
+          </div>
+          
+          <img class="card-img-top" src="data:image/png;base64,{{category.imgid}}" 
+           alt="Card image cap">
+          
+          <div class="card-body">
+            <p class="card-text">{{category.categoryDescription}}</p>
+          </div>
+          <div class="card-footer">
+           Price : {{category.price}}
+           <button class="float-right btn btn-primary" (click)="addToCart(category)">Add to cart</button>
+          </div>
+        </div>
+        </div>
+</div>
+</div>
