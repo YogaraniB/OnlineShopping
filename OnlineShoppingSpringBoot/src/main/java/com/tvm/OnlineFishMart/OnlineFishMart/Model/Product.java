@@ -1,5 +1,6 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -44,8 +45,29 @@ public class Product {
     @Lob
 	private byte[] imgid;
     
+    @Lob
+	private String description;
     
-    public byte[] getImgid() {
+    
+    public Product(Long id, @Length(min = 3, message = "*Name must have at least 5 characters") String name,
+			List<Category> categories, byte[] imgid, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.categories = categories;
+		this.imgid = imgid;
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public byte[] getImgid() {
 		return imgid;
 	}
 
@@ -88,6 +110,12 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ",\n name=" + name + ", \n categories=" + categories + ", \n  imgid="
+				+ Arrays.toString(imgid) + ", \n description=" + description + "]";
+	}
 
 	@Override
     public boolean equals(Object o) {

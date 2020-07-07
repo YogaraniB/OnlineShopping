@@ -1,5 +1,6 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,9 @@ public class UserSignUpService {
 
 		if (ob.isPresent()) {
 			UserSignUp newb = ob.get();
+			newb.setAddress(emp.getAddress());
+			newb.setEmail(emp.getEmail());
+			newb.setPhone(emp.getPhone());
 			newb.setUserName(emp.getUserName());
 			newb.setPassword(emp.getPassword());
 			newb = userSignUpRepo.save(newb);
@@ -47,7 +51,7 @@ public class UserSignUpService {
 	// get an EmployeeProfile by id
 	public UserSignUp findOne(Integer empid) {
 		Optional<UserSignUp> ob = userSignUpRepo.findById(empid);
-		ob.orElseThrow(() -> new ResourceNotFoundException("No employee found with employee id " + empid));
+		ob.orElseThrow(() -> new ResourceNotFoundException("No User found with  id " + empid));
 		return userSignUpRepo.getOne(empid);
 	}
 

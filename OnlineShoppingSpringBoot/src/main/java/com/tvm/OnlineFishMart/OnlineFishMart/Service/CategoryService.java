@@ -47,7 +47,7 @@ public class CategoryService {
 	// get an EmployeeProfile by id
 	public Category findOne(Long empid) {
 		Optional<Category> ob = categoryRepo.findById(empid);
-		ob.orElseThrow(() -> new ResourceNotFoundException("No employee found with employee id " + empid));
+		ob.orElseThrow(() -> new ResourceNotFoundException("No category found with  id " + empid));
 		return categoryRepo.getOne(empid);
 	}
 
@@ -56,6 +56,9 @@ public class CategoryService {
 		categoryRepo.deleteById(empid);
 	}
 	
+	public List<Category> findByProduct(Long productId){
+		return categoryRepo.findByProduct(productId);
+	}
 	
 
 

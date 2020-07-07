@@ -1,8 +1,6 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Model;
 
-import java.util.Date;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -13,10 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-public class UserSignUp {
+public class UserSignUp extends Audit{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,22 +30,27 @@ public class UserSignUp {
 	private String userName;
 	@Embedded
 	private Address address;
-	private Integer phone;
+	private Long phone;
+	@NotEmpty(message = "Email must not be empty")
+    @Email(message = "Email should be a valid email")
 	private String email;
+	@NotEmpty(message = "Password must not be empty")
 	private String password;
-	@Temporal(TemporalType.TIMESTAMP)
-	@LastModifiedDate
-	private Date createdAt;
-	
 	 @JsonIgnore
 	 @ElementCollection
 	 @OneToMany(mappedBy = "customerId", fetch = FetchType.LAZY,
 	            cascade = CascadeType.ALL)
 	  private List<Order> order;
-	
+	 @JsonIgnore
+	 @ElementCollection
+	 @OneToMany(mappedBy = "usersignupid", fetch = FetchType.LAZY,
+	            cascade = CascadeType.ALL)
+	  private List<Cart> cart;
 	 
-	public UserSignUp(Integer userId, String userName, Address address, Integer phone, String email, String password,
-			Date createdAt, List<Order> order) {
+	
+	
+	public UserSignUp(Integer userId, String userName, Address address, Long phone, String email, String password,
+			List<Order> order, List<Cart> cart) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -56,22 +58,22 @@ public class UserSignUp {
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
-		this.createdAt = createdAt;
 		this.order = order;
+		this.cart = cart;
 	}
-	
+	public List<Cart> getCart() {
+		return cart;
+	}
+	public void setCart(List<Cart> cart) {
+		this.cart = cart;
+	}
 	public List<Order> getOrder() {
 		return order;
 	}
 	public void setOrder(List<Order> order) {
 		this.order = order;
 	}
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+	
 	public UserSignUp() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -94,10 +96,10 @@ public class UserSignUp {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public Integer getPhone() {
+	public Long getPhone() {
 		return phone;
 	}
-	public void setPhone(Integer phone) {
+	public void setPhone(Long phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {
@@ -112,6 +114,7 @@ public class UserSignUp {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	
 	
 	

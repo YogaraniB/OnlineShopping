@@ -1,6 +1,10 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.controller;
 
 import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.persistence.Lob;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tvm.OnlineFishMart.OnlineFishMart.Email.SmtpMailSender;
 import com.tvm.OnlineFishMart.OnlineFishMart.Model.Order;
 import com.tvm.OnlineFishMart.OnlineFishMart.Service.OrderService;
 import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
@@ -32,6 +37,14 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 
+	@Autowired
+	private SmtpMailSender smtpMailSender;
+	
+	@Lob
+	String Body="";
+	String Subject="Order Invoice";
+	
+	
 	private static Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	@GetMapping("/getOrderById/{empId}")
@@ -44,36 +57,25 @@ public class OrderController {
 	public ResponseAPI getAll() {
 		logger.debug("Getting all Orders");
 		List<Order> Orders = orderService.findAll();
-//		Collections.sort(Orders, Comparator.nullsLast(
-//				Comparator.comparing(Order::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder()))));
-		// Collections.sort(Orders, (o1, o2) ->
-		// o1.getCreatedAt().compareTo(o2.getCreatedAt()));
-		// Collections.reverse(Orders);
-		// Comparator.nullsFirst(Comparator.comparing(Order::getCreatedAt,Comparator.nullsFirst(Comparator.reverseOrder())));
 		ResponseAPI res1 = new ResponseAPI("Success", Boolean.TRUE, Orders, Orders.size());
 		return res1;
 	}
 
 	@PostMapping("/Orders")
-	public Order insert(@RequestBody Order i) {
+		public Order insert(@RequestBody Order i) throws MessagingException {
 		logger.debug("Posting an Order " + i.getOrderId());
+		orderService.save(i);
+//		this.Body="Hai " +i.getCustomerId().getUserName()+", Your Order is Successfully Placed and your order ID is "
+//		+i.getOrderId()
+//		+" Thanks for Shopping with us!!   Happy Shopping!!!";
+		this.Body="<html><body style='color:#2A6EBB'><h3><b>Hai "  +i.getCustomerId().getUserName() +",</b><br>"
+				+"Your Order is Successfully Placed and your order ID is " +i.getOrderId() +",<br>"
+				+" Thanks for Shopping with us!! <br>  Happy Shopping!!!<br>"
+				+"</h3></body></html>";
+		smtpMailSender.send(i.getCustomerId().getEmail(),this.Subject,this.Body);
 		return orderService.save(i);
 	}
-
-//	@GetMapping("/OrdersByName1.8/{site}/{client}")
-//	public List<Order> OrderByRange(@PathVariable(value = "site") String site,
-//			@PathVariable(value = "client") String client) {
-//		return orderService.findAll().stream()
-//				.filter(x -> x.getSite().equalsIgnoreCase(site) && x.getClient().equalsIgnoreCase(client))
-//				.collect(Collectors.toList());
-//	}
-
-//	@GetMapping("/OrdersByName1.8/{name}")
-//	public List<Order> OrderAutocomplete(@PathVariable(value = "name") String name) {	
-//		return orderService.findAll().stream().filter(x -> x.getFirstName().startsWith(name))
-//				.collect(Collectors.toList());
-//	}
-
+	
 	@PutMapping("/Order/{id}")
 	public Order update(@PathVariable(value = "id") Integer id, @RequestBody Order emp) {
 		logger.debug("Updating an Order " + id);
