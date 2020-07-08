@@ -1,5 +1,6 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,22 @@ public class CartService {
 	public List<Cart> getCartByUserId (Integer usersignupid){
 		return cartRepo.getCartByUserId(usersignupid);
 	}
+
+	public Cart updateQuantity(Cart emp) {
+		Optional<Cart> ob = cartRepo.findById(emp.getCartId());
+
+		if (ob.isPresent()) {
+			Cart newb = ob.get();
+			newb.setPrice(emp.getPrice());
+			newb.setQuantity(emp.getQuantity());
+			newb = cartRepo.save(newb);
+			return newb;
+		} else {
+			emp = cartRepo.save(emp);
+			return emp;
+		}
+	}
+	
 
 
 
