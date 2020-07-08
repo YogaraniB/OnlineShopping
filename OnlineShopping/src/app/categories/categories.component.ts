@@ -28,12 +28,16 @@ export class CategoriesComponent implements OnInit {
     });
   }
   addToCart(category){
-    const userDetais=JSON.parse(sessionStorage.getItem('currentUserDetails'));
+    const userId=JSON.parse(sessionStorage.getItem('userId'));
     const parameter={
-      "category": [ ],
-      "usersignupid": userDetais
+     
+      "categoryDescription": category.categoryDescription,
+      "categoryName": category.categoryName,
+      "imgId": category.imgid,
+      "price": category.price,
+      "usersignupid": userId
     };
-    parameter.category.push(category);
+    
     console.log(parameter);
     this.cartService.createCart(parameter).subscribe(data => {
       if (data) {
