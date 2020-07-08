@@ -54,7 +54,16 @@ public class CartService {
 	// delete an EmployeeProfile
 	public void delete(Integer empid) {
 		cartRepo.deleteById(empid);
-	}}
+	}
+	
+	public List<Cart> getCartByUserId (Integer usersignupid){
+		return cartRepo.getCartByUserId(usersignupid);
+	}
+
+
+
+
+}
 	
 //	public List<Cart> getbyemailAndPassword(String email, String password) {
 //		List<Cart> l = EmployeeProfileRepository.getbyEmailAndPassword(email, password);

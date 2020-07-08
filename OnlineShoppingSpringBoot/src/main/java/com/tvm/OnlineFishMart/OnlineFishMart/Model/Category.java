@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 
@@ -50,17 +51,18 @@ public class Category {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "productId", nullable = false)
     private Product product;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "cartId", nullable = true)
-    private Cart cartId;
+    
+//    @JsonIgnore
+//    @OneToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "cartId", nullable = false)
+//    private Cart cartId;
   
 
 	public Category(Long id, @Length(min = 3, message = "*Name must have at least 5 characters") String categoryName,
 			String categoryDescription, byte[] imgid,
 			@Min(value = 0, message = "*Quantity has to be non negative number") Integer quantity,
 			@DecimalMin(value = "0.00", message = "*Price has to be non negative number") BigDecimal price,
-			Product product, Cart cartId) {
+			Product product) {
 		super();
 		this.id = id;
 		this.categoryName = categoryName;
@@ -69,17 +71,6 @@ public class Category {
 		this.quantity = quantity;
 		this.price = price;
 		this.product = product;
-		this.cartId = cartId;
-	}
-
-
-	public Cart getCartId() {
-		return cartId;
-	}
-
-
-	public void setCartId(Cart cartId) {
-		this.cartId = cartId;
 	}
 
 

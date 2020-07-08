@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.annotations.Api;
 @org.springframework.web.bind.annotation.RestController
@@ -69,5 +70,9 @@ public class CartController {
 		return new ResponseAPI("Cart with id : " + id + " Deleted", Boolean.TRUE);
 
 	}
-
+	@GetMapping("/getCartByUserId")
+	public List<Cart> getCartByUserId (@RequestParam Integer usersignupid){
+		List<Cart> l=cartService.getCartByUserId(usersignupid);
+		return l;
+	}
 }
