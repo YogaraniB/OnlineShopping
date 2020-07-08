@@ -35,7 +35,8 @@ export class CategoriesComponent implements OnInit {
       "categoryName": category.categoryName,
       "imgId": category.imgid,
       "price": category.price,
-      "usersignupid": userId
+      "usersignupid": userId,
+      "quantity":1
     };
     
     console.log(parameter);
