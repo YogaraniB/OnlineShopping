@@ -1,6 +1,11 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.controller;
 
 import java.util.List;
+
+import com.tvm.OnlineFishMart.OnlineFishMart.Model.Cart;
+import com.tvm.OnlineFishMart.OnlineFishMart.Service.CartService;
+import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.tvm.OnlineFishMart.OnlineFishMart.Model.Cart;
-import com.tvm.OnlineFishMart.OnlineFishMart.Service.CartService;
-import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
-
 import io.swagger.annotations.Api;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1")
 @CrossOrigin("*")
@@ -36,6 +36,7 @@ public class CartController {
 	@GetMapping("/getCartById/{empId}")
 	public Cart getById(@PathVariable(value = "empId") Integer empId) {
 		logger.debug("Getting an Cart " + empId);
+		logger.info("Success!!!");
 		return cartService.findOne(empId);
 	}
 
