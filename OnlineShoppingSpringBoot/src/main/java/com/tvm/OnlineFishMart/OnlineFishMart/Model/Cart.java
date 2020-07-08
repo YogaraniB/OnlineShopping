@@ -43,16 +43,16 @@ public class Cart {
 	@Lob
 	private byte[] imgId;
 	private BigDecimal price;
-	private Integer quanity;
+	private Integer quantity;
 	private Integer usersignupid;
 	
 	
 	
-	public Integer getQuanity() {
-		return quanity;
+	public Integer getQuantity() {
+		return quantity;
 	}
-	public void setQuanity(Integer quanity) {
-		this.quanity = quanity;
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 	public Integer getCartId() {
 		return cartId;
@@ -92,14 +92,14 @@ public class Cart {
 	}
 	
 	public Cart(Integer cartId, String categoryDescription, String categoryName, byte[] imgId, BigDecimal price,
-			Integer quanity, Integer usersignupid) {
+			Integer quantity, Integer usersignupid) {
 		super();
 		this.cartId = cartId;
 		this.categoryDescription = categoryDescription;
 		this.categoryName = categoryName;
 		this.imgId = imgId;
 		this.price = price;
-		this.quanity = quanity;
+		this.quantity = quantity;
 		this.usersignupid = usersignupid;
 	}
 	public Cart() {
