@@ -1,11 +1,8 @@
 package com.tvm.OnlineFishMart.OnlineFishMart.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.tvm.OnlineFishMart.OnlineFishMart.Model.Cart;
-import com.tvm.OnlineFishMart.OnlineFishMart.Service.CartService;
-import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +11,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.tvm.OnlineFishMart.OnlineFishMart.Model.Cart;
+import com.tvm.OnlineFishMart.OnlineFishMart.Service.CartService;
+import com.tvm.OnlineFishMart.OnlineFishMart.web.ResponseAPI;
 
 import io.swagger.annotations.Api;
 @org.springframework.web.bind.annotation.RestController
@@ -52,7 +52,7 @@ public class CartController {
 	}
 
 	@PostMapping("/Carts")
-	public Cart insert(@RequestBody Cart i) {
+	public Cart insert(@Valid @RequestBody Cart i) {
 		logger.debug("Posting an Cart " + i.getCartId());
 		return cartService.save(i);
 	}
