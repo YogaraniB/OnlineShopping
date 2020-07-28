@@ -39,7 +39,7 @@ public class ProductService {
 			newb.setDescription(productDescription);
 			newb.setImgid(bytes);
 			newb.setName(productName);
-			System.out.println(newb.getDescription() +" New");
+			newb=productRepo.save(newb);
 			return newb;
 		} else {
 			 emp = productRepo.save(emp);

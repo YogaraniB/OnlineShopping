@@ -36,7 +36,7 @@ public class CategoryService {
 			Category newb = ob.get();
 //			newb.setUserName(emp.getUserName());
 //			newb.setPassword(emp.getPassword());
-//			newb = categoryRepo.save(newb);
+			newb = categoryRepo.save(newb);
 			return newb;
 		} else {
 			emp = categoryRepo.save(emp);
